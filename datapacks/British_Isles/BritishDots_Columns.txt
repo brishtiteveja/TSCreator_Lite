@@ -1,0 +1,51 @@
+MAP-VERSION	1
+
+HEADER-MAP INFO	MAP NAME	IMAGE	NOTE
+MAP INFO	British sections	British_map_NO_dots	From "Locations of lithostratigraphic columns" in legend to Waters, C.N. et al (16 authors), 2007.  STRATIGRAPHICAL CHART OF THE UNITED KINGDOM: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+
+HEADER-PARENT MAP	PARENT NAME	COORDINATE TYPE	UPPER LEFT LON	UPPER LEFT LAT	LOWER RIGHT LON	LOWER RIGHT LAT
+PARENT MAP	WorldMap.jpg	RECTANGULAR	-15	63	6	48
+COMMENT	NZ on PARENT MAP	World Map	RECTANGULAR	171.5712	-37.4913	175.4356	-41.789
+
+HEADER-COORD	COORDINATE TYPE	UPPER LEFT LON	UPPER LEFT LAT	LOWER RIGHT LON	LOWER RIGHT LAT
+COORD	RECTANGULAR	0	0	4.8	7.9
+COMMENT	Long = X; Lat = Y.  Map is 7.9 inches tall (Lat) and 4.8 inches wide (Long)
+
+COMMENT	DataColumns
+HEADER-DATACOL	NAME	LON	LAT	NOTE		MIN-AGE	MAX-AGE	NOTE
+DATACOL	Eon	0.88	0.72		off		30.0	-4570.0	null
+DATACOL	Era	0.88	0.97		off		30.0	-4570.0	null
+DATACOL	Period	0.88	1.21		on		30.0	-4570.0	null
+DATACOL	Sub-Period	1.2	1.46		off		-269.0	-329.2	null
+DATACOL	Epoch	1.2	1.7		on		30.0	-4570.0	null
+DATACOL	Age/Stage	1.2	1.94		on		29.9883	-4470.0	null
+DATACOL	W. Europe-British Series	1.63	2.27		off		-35.5	-512.0	Cret = Traditional series-level divisions; Perm-Carb = Davydov (GTS2004) and German Stratigraphic Commission (2002); Ordovician = Webby et al (2004); Cambrian = Shanchi Peng (chair of subcommission, to J. Ogg, Dec. 2005)
+DATACOL	W. Europe Stages	1.63	2.54		off		-221.0	-458.3	Perm-Carb = Davydov (GTS2004) and German Stratigraphic Commission (2002); Ordovician = Webby et al (2004); GeoWhen (compiled by R. Rohde; at stratigraphy.science.purdue.edu)
+DATACOL	North-west Approaches / Hebrides Shelf  (region N1)	2.58	2.25		on		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Northern North Sea  (region N3)	3.9	2.28		on		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Central North Sea  (region N8)	3.9	3.86		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Southern North Sea  (region S4)	4.13	5.17		on		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Isle of Man and N. Irish Sea  (region N11)	2.68	4.95		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Southern Irish Sea  (region S1)	2.84	5.26		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Celtic Sea and Bristol Channel  (region S9)	1.88	7.08		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	English Channel  (region S16)	3.59	6.62		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Northern Isles  (region N2)	3.24	2.17		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Northern Highlands  (region N4)	2.58	3.48		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Western Isles & Inner Hebrides  (region N5)	2.13	3.46		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Grampian Highlands  (region N6)	2.74	3.83		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Midland Valley of Scotland  (region N7)	2.78	4.23		on		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	South of Scotland  (region N9)	2.91	4.57		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Northern Ireland  (region N10)	2.19	4.89		off		-Infinity	Infinity	Source inFm. for column: Mitchell (2004). The Geology of Northern Ireland. Geological Survey of Northern Ireland (Belfast)
+DATACOL	Northern England  (region N12)	3.07	4.8		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Lancashire and Cheshire Basin  (region S2)	3.15	5.33		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Yorkshire  (region S3)	3.49	5.08		on		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	East Midlands  (region S5)	3.53	5.52		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	West Midlands  (region S6)	3.14	5.82		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	North Wales  (region S7)	2.93	5.49		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	South Wales  (region S8)	2.85	5.92		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	South-west England  (region S10)	2.75	6.52		off		-Infinity	Infinity	null
+DATACOL	Bristol and Gloucester  (region S11)	3.16	6.12		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Hampshire Basin  (region S12)	3.38	6.25		on		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	London and Thames Valley  (region S13)	3.8	6.09		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Eastern England  (region S14)	3.69	5.78		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.
+DATACOL	Weald Region  (region S15)	3.83	6.35		off		-Infinity	Infinity	Waters, C.N. et al (16 authors), 2007.  Stratigraphical Chart of the United Kingdom: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters.

@@ -1,0 +1,514 @@
+<?
+session_start();
+
+include_once(realpath(dirname(__FILE__) . "/../../include/Page/class_path.php"));
+include_once(Path::get()->getFilePath("class_page"));
+include_once(Path::get()->getFilePath("class_errorcheck"));
+include_once(Path::get()->getFilePath("class_mapgen"));
+
+//////////////////////////////////////////////////////
+// Constant Values
+//////////////////////////////////////////////////////
+$refresh_rate  = 3;
+//this constant determines the length in pixels of the longer side (X or Y)
+$longest_side         = 1000;  // scales the longest side of the map to 1000 pixels
+$timeout_value        = 10;    // multiply by refresh_rate to get timeout in seconds
+$timeout_refresh_rate = 5;     // amount of time before timeout page reloads into index page   
+$debug                = false; // set true to turn on debugging messages
+//////////////////////////////////////////////////////
+// Create Page Object
+//////////////////////////////////////////////////////
+$page = new Page();
+
+//////////////////////////////////////////////////////
+// Create MapGen Object
+//////////////////////////////////////////////////////
+$mapgen = new MapGen();
+//////////////////////////////////////////////////////
+// Create ErrorChecking Object
+//////////////////////////////////////////////////////
+$errorcheck = new ErrorChecking();
+
+if (isset($_SESSION["error_msgs"])){
+  $error_msgs = $_SESSION["error_msgs"];
+}else{
+  $error_msgs = array();
+}
+
+//////////////////////////////////////////////////////
+// Get Form Variables or Use SESSION values
+///////////////////////////////////////////////////////
+
+// Submit Buttons
+$load  = $errorcheck->checkInput($_REQUEST["load"]);
+$sub   = $errorcheck->checkInput($_REQUEST["sub"]);
+$reset = $errorcheck->checkInput($_REQUEST["reset"]);
+// value variables of START END VERTICAL SCALE textboxes
+
+if (isset($_REQUEST["datapack"])){
+  $load = "LOAD";
+}
+
+if ($reset == "RESET"){
+  unset($_SESSION["view"]);
+  unset($_SESSION["start_age_val"]);
+  unset($_SESSION["end_age_val"]);
+  unset($_SESSION["vertical_scale_val"]);
+  unset($_SESSION["datapack"]);
+  unset($_SESSION["datapack_parsed"]);
+  unset($_SESSION["wait_time"]);
+  $cur_datapack = 0;
+  $_SESSION["chart_format"] = "png";
+  $_SESSION["datapack"] = $cur_datapack;
+}
+else {
+  if (isset($_REQUEST["start_age_val"])){
+    $start_age_val             = $errorcheck->checkInput($_REQUEST["start_age_val"]);
+    $_SESSION["start_age_val"] = $start_age_val;
+  }else{
+    $start_age_val             = $_SESSION["start_age_val"];
+  }
+
+  if (isset($_REQUEST["end_age_val"])){
+    $end_age_val             = $errorcheck->checkInput($_REQUEST["end_age_val"]);
+    $_SESSION["end_age_val"] = $end_age_val;
+  }else{
+    $end_age_val = $_SESSION["end_age_val"];
+  }
+
+  if (isset($_REQUEST["vertical_scale_val"])){
+    $vertical_scale_val             = $errorcheck->checkInput($_REQUEST["vertical_scale_val"]);
+    $_SESSION["vertical_scale_val"] = $vertical_scale_val;
+  }else{
+    $vertical_scale_val = $_SESSION["vertical_scale_val"];
+  }
+
+  // setting the radio buttons for png/pdf options
+  $png_status = 'unchecked';
+  $pdf_status = 'unchecked';
+  if (isset($_REQUEST["chart_format"])){
+    $chart_format_status = $_REQUEST["chart_format"];
+    $_SESSION["chart_format"] = $chart_format_status; //save the status down
+  
+  }else if (isset($_SESSION["chart_format"])){
+    $chart_format_status = $_SESSION["chart_format"];  
+  }else if (!isset($_SESSION["chart_format"])){
+    $chart_format_status = 'png';
+  }
+
+  if ($chart_format_status == 'png'){
+    $png_status = 'checked';
+  }else if ($chart_format_status == 'pdf'){
+    $pdf_status= 'checked';
+  }
+
+  if (isset($_REQUEST["datapack"])){
+    $cur_datapack         = $errorcheck->checkInput($_REQUEST["datapack"]);
+    $_SESSION["datapack"] = $cur_datapack;
+  }else{
+    $cur_datapack = $_SESSION["datapack"];
+  }
+
+  if (isset($_REQUEST["datacolid"])){
+    $colid = $errorcheck->checkInput($_REQUEST["datacolid"]);
+  }
+}
+
+/*$start_age_val     = $errorcheck->checkInput($_REQUEST["start_age_val"]);
+$end_age_val       = $errorcheck->checkInput($_REQUEST["end_age_val"]);
+$vertical_scale_val= $errorcheck->checkInput($_REQUEST["vertical_scale_val"]);
+$cur_datapack      = $errorcheck->checkInput($_REQUEST["datapack"]);
+*/
+//echo "POST : <pre>"; print_r($_POST); echo "</pre>";
+//echo "</br><pre>"; print_r($_SESSION); echo "</pre>";
+/////////////////////////////////////////////////////
+// Setup Template Variables
+/////////////////////////////////////////////////////
+
+// Initialization
+$datapack_choices = array();
+$lines = file(Path::get()->getFilePath("datapack_txt"));
+foreach($lines as $i => $line) {
+  $words = explode("\t", $line);
+  array_push($datapack_choices, array("value"      => $i, 
+                                      "text"       => trim($words[0]), 
+                                      "img"        => trim($words[1]),
+                                      "img_type"   => trim($words[2]),
+                                      "column_txt" => trim($words[3])));
+}
+
+// If SESSION view is not set, set to view, otherwise retain previous views.
+$view = $_REQUEST["view"];
+if (!isset($_SESSION["view"])){
+  $view = "form";
+  //forcefully set it to load a datapack
+  $load = "LOAD";
+  $cur_datapack = 0;
+  $_SESSION["datapack"] = $cur_datapack;
+
+}else{
+  $view = $_SESSION["view"];
+}
+
+switch ($view) {
+  case "form":
+    if (count($error_msgs) > 0){
+      $state ="show_error";
+
+    }else if ($load == "LOAD"){
+      unset($_SESSION["datapack_parsed"]);
+      unset($_SESSION["generate_pdf"]);
+      $state = "process_load";
+
+    }else if ($sub == "SET TIME"){
+      $state = "process_time";
+
+    }else if ($sub == "GENERATE"){
+      $state = "generate";
+
+    }else {
+      $state = "show_form";
+
+    }
+    break;
+  case "waiting":
+    if (count($error_msgs) > 0){
+      $state ="show_error";
+
+    }else if ($load == "LOAD"){
+      $state = "process_load";
+
+    }else if($sub == "GENERATE"){
+      $state = "generate";
+
+    }else if(isset($_SESSION["generate_pdf"])){
+      $state = "generate";
+
+    }else {
+      $state = "undefined";
+    }
+    break;
+  default:
+    $state = "show_form";
+    break;
+
+}
+
+if (isset($_SESSION["datapack_parsed"])){
+  $datapack_parsed = $_SESSION["datapack_parsed"];
+  if (isset($_REQUEST["datacolid"]))  
+    if ($datapack_parsed["datapack_col"][$_REQUEST["datacolid"]]["bool"] == "true") $datapack_parsed["datapack_col"][$_REQUEST["datacolid"]]["bool"] = "false";
+    else                                                                            $datapack_parsed["datapack_col"][$_REQUEST["datacolid"]]["bool"] = "true";   
+
+}
+
+/////////////////////////////////////////////////////
+// Process variables based on state
+/////////////////////////////////////////////////////
+
+if ($state == "show_error"){
+  $view ="show_error";
+
+}else if ($state == "show_form") {
+  $view = "form";
+
+}else if ($state == "process_load"){
+  // validate datapack choice
+  if (!array_key_exists($cur_datapack, $datapack_choices)){
+    array_push($error_msgs, "Error : datapack invalid");
+    $view = "form";
+
+  }else{
+    unset($_SESSION["start_age_val"]);
+    unset($_SESSION["end_age_val"]);
+    unset($_SESSION["vertical_scale_val"]);
+    if (file_exists(Path::get()->getFilePath("Datapacks") . $datapack_choices[$cur_datapack]["column_txt"])){
+      $datapack_col    = array();
+      $datapack_info   = array();
+      $datapack_coord  = array();
+      $datapack_parent = array();
+      $datapack_parsed = array();
+      
+      $lines = file(Path::get()->getFilePath("Datapacks") . $datapack_choices[$cur_datapack]["column_txt"]);
+      foreach ($lines as $i=>$line) {
+
+        $cols = explode("\t",$line);
+
+       /* Format:
+            DataColumns 
+              cols[0] = DATACOL
+              cols[1] = NAME
+              cols[2] = LAT
+              cols[3] = LON
+              cols[4] = on   //if exists
+              cols[5] = min_age
+              cols[6] = max_age
+              cols[7] = NOTE  
+
+            HEADER-COORD
+              cols[0] = COORD
+              cols[1] = COORDINATE TYPE
+              cols[2] = UPPER LEFT LON
+              cols[3] = UPPER LEFT LAT
+              cols[4] = LOWER RIGHT LON
+              cols[5] = LOWER RIGHT LAT
+
+            HEADER-MAP INFO
+              cols[0] = MAP INFO
+              cols[1] = MAP NAME
+              cols[2] = IMAGE
+              cols[3] = NOTE
+
+            HEADER-MAP AGE
+              cols[0] = DEAFULT AGES
+              cols[1] = TOP AGE
+              cols[2] = BASE AGE
+              cols[3] = VERTICAL SCALE
+
+            HEADER-PARENT MAP
+              cols[0] = PARENT MAP
+              cols[1] = PARENT NAME
+              cols[2] = COORDINATE TYPE
+              cols[3] = UPPER LEFT LON
+              cols[4] = UPPER LEFT LAT
+              cols[5] = LOWER RIGHT LON
+              cols[6] = LOWER RIGHT LAT
+       */
+
+        $col_type = trim($cols[0]);
+        switch($col_type){
+          case "DATACOL":
+            if (count($cols) > 6) {
+              if (trim($cols[4]) == "on")     $default_value = "true";
+              else                            $default_value = "false";
+               
+              array_push($datapack_col, array("name"    => trim($cols[1]),
+                                              "lon"     => trim($cols[2]),
+                                              "lat"     => trim($cols[3]),
+                                              "bool"    => $default_value,
+                                              "min_age" => trim($cols[5]),
+                                              "max_age" => trim($cols[6]),
+                                              "note"    => trim($cols[7])));
+            } else { //old format
+              if (trim($cols[5]) == "on")    $default_value = "true";
+              else                           $default_value = "false";
+              
+              
+ 
+              array_push($datapack_col, array("name" => trim($cols[1]),
+                                              "lon"  => trim($cols[2]),
+                                              "lat"  => trim($cols[3]),
+                                              "note" => trim($cols[4]),
+                                              "bool" => $default_value  ));
+            
+            }
+
+            break;
+          case "COORD":
+            $datapack_coord = array("coor_type"       => trim($cols[1]),
+                                    "upper_left_lon"  => trim($cols[2]),
+                                    "upper_left_lat"  => trim($cols[3]),
+                                    "lower_right_lon" => trim($cols[4]),
+                                    "lower_right_lat" => trim($cols[5]));
+            break;
+          case "DEFAULT AGES":
+            $start_age_val      = $cols[1];
+            $end_age_val        = $cols[2];
+            $vertical_scale_val = $cols[3];
+
+            $_SESSION["start_age_val"] = $start_age_val;
+            $_SESSION["end_age_val"] = $end_age_val;
+            $_SESSION["vertical_scale_val"] = $vertical_scale_val;
+            break;
+          case "MAP INFO":
+            $datapack_info = array("map_name" => trim($cols[1]),
+                                   "image"    => trim($cols[2]),
+                                   "note"     => trim($cols[3]));
+            break;
+          case "PARENT MAP":
+            $datapack_parent = array("parent_name"     => trim($cols[1]),
+                                     "coordinate_type" => trim($cols[2]),
+                                     "upper_left_lon"  => trim($cols[3]),
+                                     "upper_left_lat"  => trim($cols[4]),
+                                     "lower_right_lon" => trim($cols[5]),
+                                     "lower_right_lat" => trim($cols[6]));
+            break;
+
+          default:
+            break;
+        }
+       
+      }//end for
+      $datapack_parsed = array("datapack_col"    => $datapack_col,
+                               "datapack_coord"  => $datapack_coord,
+                               "datapack_info"   => $datapack_info,
+                               "datapack_parent" => $datapack_parent);
+      $_SESSION["datapack_parsed"] = $datapack_parsed;
+    }     
+
+    else{
+      array_push($error_msgs, "Error: Datapack does not have a column.txt file");
+    }
+  }
+}else if ($state == "process_time"){
+  //verify start age
+  $view = "form";
+  if ($str = $errorcheck->checkInt($start_age_val)){
+    array_push($error_msgs,"EndAge : " . $str);
+  }  
+ 
+  //verify end_age
+  if ($str = $errorcheck->checkInt($end_age_val)){
+    array_push($error_msgs,"EndAge : " . $str);
+  }
+ 
+  //verify end_age < start_age
+  if ($end_age_val < $start_age_val ){
+    array_push($error_msgs, "Error: end age is newer than start age"); 
+  }
+
+  //verify vertical_scale
+  if ($str = $errorcheck->checkInt($vertical_scale_val)){
+    array_push($error_msgs, "VerticalScale :" . $str);
+  } 
+
+//end if for state-process time
+}else if ($state == "generate"){
+  //checks if the age fields are empty or not
+  if ($str = $errorcheck->checkInt($start_age_val)){
+    array_push($error_msgs,"EndAge : " . $str);
+  }  
+ 
+  //verify end_age
+  if ($str = $errorcheck->checkInt($end_age_val)){
+    array_push($error_msgs,"EndAge : " . $str);
+  }
+ 
+  //verify end_age < start_age
+  if ($end_age_val < $start_age_val ){
+    array_push($error_msgs, "Error: end age is newer than start age"); 
+  }
+
+  //verify vertical_scale
+  if ($str = $errorcheck->checkInt($vertical_scale_val)){
+    array_push($error_msgs, "VerticalScale :" . $str);
+  } 
+
+
+  if (isset($_SESSION["generate_pdf"])) {
+    $output_file   = $_SESSION["generate_pdf"];
+    $output_format = $_SESSION["chart_format"];
+    if (! isset($_SESSION["wait_time"])){
+      $_SESSION["wait_time"] = 1;
+    }
+    else {
+      $_SESSION["wait_time"] += 1;
+    }
+      
+      
+    if ($_SESSION["wait_time"] > $timeout_value){
+      $view = "timeout";
+    }
+
+    else if ($output_format == "pdf"){
+      if (file_exists(Path::get()->getFilePath("Output") . $output_file . ".pdf")){
+        unset($_SESSION["wait_time"]);
+        $view = "show_pdf";
+      }else {
+        $view = "waiting";
+      }
+    }else if ($output_format == "png"){
+      if (file_exists(Path::get()->getFilePath("Output") . $output_file . ".png")){
+        unset($_SESSION["wait_time"]);
+        $view = "show_png";
+      }else {
+        $view = "waiting";
+      }
+    }
+
+  }else{
+    $id = uniqid();
+    $filepath = Path::get()->getFilePath("Request") . $id. ".xml";
+    $str = $datapack_choices[$cur_datapack]["text"];
+
+    //write requests as an XML file 
+    if ($handle = fopen($filepath, 'w')){
+      fwrite($handle,'<settings>');
+      fwrite($handle,'<keyval key="ID" value="'             . $id . '" />' . "\n");
+      fwrite($handle,'<keyval key="DATAPACK_NAME" value="'  . $datapack_parsed["datapack_info"]["map_name"] . '" />' . "\n");
+      fwrite($handle,'<keyval key="TOP_AGE" value="'        . $_SESSION["start_age_val"] . '" />' . "\n" );
+      fwrite($handle,'<keyval key="BASE_AGE" value="'       . $_SESSION["end_age_val"] . '" />' . "\n" );
+      fwrite($handle,'<keyval key="VERTICAL_SCALE" value="' . $_SESSION["vertical_scale_val"] . '" />' . "\n");
+      fwrite($handle,'<keyval key="FORMAT" value="'         . $_SESSION["chart_format"] . '" />' . "\n");
+      foreach ($datapack_parsed["datapack_col"] as $datapoint){
+        $newstring = str_replace("&","&amp;", $datapoint["name"]);
+        fwrite($handle,'<keyval key="' . $newstring . '" value="' . $datapoint["bool"] . '"/>' . "\n");
+      }
+      fwrite($handle,'</settings>');
+      fclose($handle);
+
+      $_SESSION["generate_pdf"] = $id;
+
+      $view = "waiting";
+    }
+  }
+
+}else {
+  $view = "default";
+}
+
+/////////////////////////////////////////////////////
+// Start Template
+/////////////////////////////////////////////////////
+
+
+//echo "<pre>"; print_r($_SESSION["datapack_parsed"]); echo "</pre>";
+switch ($view){
+  case "form": 
+    $header_type = Path::get()->getFilePath("template_header");
+    include_once(Path::get()->getFilePath("template_index_form"));
+    break;
+
+  case "waiting":
+    $header_type = Path::get()->getFilePath("template_header_wait");
+    include_once(Path::get()->getFilePath("template_wait"));
+    break;
+
+  case "timeout":
+    $header_type = Path::get()->getFilePath("template_header_timeout");
+    include_once(Path::get()->getFilePath("template_timeout"));
+    $_SESSION["wait_time"] = 1;
+    $view = "form";
+    break;
+
+  case "show_pdf":    
+    include_once(Path::get()->getFilePath("template_showpdf"));
+    $view = "form";
+    unset($_SESSION["generate_pdf"]);
+    break;
+
+  case "show_png":
+    $header_type = Path::get()->getFilePath("template_header");
+    include_once(Path::get()->getFilePath("template_index_png"));
+    $view = "form";
+    unset($_SESSION["generate_pdf"]);
+    break;
+
+  case "show_error":
+    $header_type = Path::get()->getFilePath("template_header_error");
+    include_once(Path::get()->getFilePath("template_index_form"));
+    //clear error_msgs
+    $error_msgs = array();
+    break;
+
+  default:
+    include_once(Path::get()->getFilePath("template_index_form"));
+    break;
+}
+
+/////////////////////////////////////////////////////
+// Save SESSION variables
+/////////////////////////////////////////////////////
+$_SESSION["view"] = $view;
+$_SESSION["error_msgs"] = $error_msgs;
+?>

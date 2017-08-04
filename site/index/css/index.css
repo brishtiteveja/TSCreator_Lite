@@ -1,0 +1,122 @@
+fieldset {
+	text-align: center;
+	width: 650px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #f5ffb2;
+}	
+
+fieldset p {
+	margin-bottom: 0;
+}
+
+fieldset label {
+	padding: 10px;
+	margin-top:20px;
+}
+
+#allmappack {
+  float: left;
+  width: 100%;
+  margin-top: 25px;
+}
+
+#mappack_select {
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+
+#mappack_select ul {
+	list-style: none;
+	/*padding: 0;*/
+	margin: 0;
+	clear: both;
+}
+
+#mappack_select li {
+	float: left;
+	border: 1px solid #BBB;
+	border-bottom-width: 0;
+	padding: 0;
+	margin: 0;
+}
+
+#mappack_select a {
+	text-decoration: none;
+	display: block;
+	background: #e8ec9a;
+	padding: 0.24em 1em;
+	color: black;
+	width: 8em;
+	text-align: center;
+}
+
+#mappack_select a:hover {
+	background: #bad976;
+}
+
+#mappack_select #selected {
+	border-color: black;
+}
+
+#mappack_select #selected a {
+	position: relative;
+	top: 1px;
+	background: #F5FFB2;
+	color: black;
+	font-weight: bold;
+}
+
+#mappack {
+	border: 1px solid black;
+	clear: both;
+	padding: 0;
+	margin: 0;
+	background-color: #F5FFB2;
+	min-height: 800px;
+}
+
+#mappack p.img {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+p.small_controls {
+	font-size: .7em;
+}
+
+	 
+p.small_controls span a.switch_img_svg {
+	display: none;
+}
+
+#chartDiv {
+  margin-top: 15px;
+}
+
+.popupHover {
+  display : none;
+  position : absolute;
+  background-color : #f2f1f0;
+  margin : 0;
+  padding : 0;
+  -moz-box-shadow : 0 0 10px 3px #999;
+  -webkit-box-shadow : 0 0 10px 3px #999;
+  box-shadow : 0 0 10px 3px #999;
+  border : 1px solid black;
+  font-size : 80%;
+  max-width : 350px;
+}
+
+.popupHover p {
+  padding : 0;
+  margin : 2px;
+  text-indent: -25px;
+  padding-left: 25px;
+}
+
+.popupHover p span {
+  font-weight : bold;
+}

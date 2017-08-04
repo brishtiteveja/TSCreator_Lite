@@ -1,0 +1,51 @@
+table {
+	border: none;
+	border-collapse: collapse;
+}
+
+td.center {
+	text-align: center;
+}
+
+td {
+	border-width: 1px;
+	border-style: inset;
+	border-color: gray;
+}
+
+th {
+	border-width: 1px;
+	border-style: inset;
+	border-color: gray;
+}
+
+a img {
+	border: none;
+}
+
+.error {
+	display: none;
+	color: red;
+	font-size: 0.85em;
+	font-weight: bold;
+}
+
+.img img {
+	border: none;
+}
+
+.left {
+	float: left;
+}
+	 
+.right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+#footer {
+  clear: both;
+}

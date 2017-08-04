@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<datapacks>
+  <datapack>
+    <name>Global</name>
+    <default>true</default>
+    <pack>TSC_Lite_Phan_GTS2016_mikrotax_22July2017.txt</pack>
+    <directory>Global</directory>
+    <svg>TSC_Lite_image_lowresFeb2012.svg</svg>
+    <png>TSC_Lite_image.png</png>
+    <mappack>TSC_Lite_internal_map_11July2017.txt</mappack>
+  </datapack>
+  <datapack>
+    <name>British Isles</name>
+    <default>false</default>
+    <pack>British_datapack_Lite_TSCdatapack_11Dec12.txt</pack>
+    <directory>British_Isles</directory>
+    <svg>BritishSectionMap_19Nov10.svg</svg>
+    <png>BritishSectionMap_19Nov10.png</png>
+    <mappack>British_map_wChronostrat.txt</mappack>
+  </datapack>
+  <!--
+  <datapack>
+    <name>Belgium</name>
+    <default>false</default>
+    <pack>Belgium_DataPack_3June2011.txt</pack>
+    <directory>Belgium</directory>
+    <svg>BelgiumGeolSites_16May11.svg</svg>
+    <png>BelgiumGeolSites_16May11.png</png>
+    <mappack>Belgium_TSCLiteOutput_3June2011.txt</mappack>
+  </datapack>
+	-->
+  <datapack>
+    <name>New Zealand</name>
+    <default>false</default>
+    <pack>Northland_wStages_1-2-4-39.txt</pack>
+    <directory>NZ_NorthIsland</directory>
+    <svg>NorthIslandNZ_539km.svg</svg>
+    <png>NorthIslandNZ_539km.png</png>
+    <mappack>Northland_MapSet_noParent_124and39_tsclite.txt</mappack>
+  </datapack>
+</datapacks>

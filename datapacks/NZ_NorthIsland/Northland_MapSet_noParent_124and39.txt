@@ -1,0 +1,35 @@
+MAP-VERSION	1
+HEADER-MAP INFO	MAP NAME	IMAGE	NOTE	
+MAP INFO	North Island	NorthIslandNZ_539km.jpg	From Google Earth
+HEADER-COORD	COORDINATE TYPE	CENTER LAT	CENTER LON	HEIGHT	SCALE
+COORD	VERTICAL PERSPECTIVE	-38.63	175.85	539	241
+COMMENT	DataColumns			
+HEADER-DATACOL	NAME	LAT	LON	NOTE
+DATACOL	Te Ranga-1 TB_NE	-38.2025	174.6317	0
+DATACOL	Ararimu-1 TB_EW	-38.8472	175.1306	0
+DATACOL	Mt Roskill	-36.911	174.7282	Northland transect 1A (1a)
+DATACOL	Mt Roskill on Tr4	-36.911	174.7282	Northland transect 1A (1a)
+DATACOL	Kamo	-35.7061	174.3576	Northland transect 1 A-B (1g)
+DATACOL	North Cape	-34.4659	172.9427	Northland transect 1B (1o)
+DATACOL	East Kawhia	-38.1108	174.9366	Central part of North Island
+DATACOL	Te Hoe	-37.518	175.2744	East-Central part of North Island
+DATACOL	Pokeno on Tr4	-37.2796	175.019	North-central part of North Island; crossing of Transect 4
+DATACOL	Maramarua	-37.25	175.1662	North-central part of North Island; join to beginning of 39
+DATACOL	Katikati	-37.5305	175.9164	Bay of Plenty = Central-west part of North Island
+DATACOL	Ohiwa	-37.9958	177.1778	Bay of Plenty = Central-west part of North Island
+DATACOL	Te Rappa-1	-37.75	175.1886	West-central part of North Island
+DATACOL	Te Rappa-1 on Tr2	-37.75	175.1886	West-central part of North Island
+HEADER-INFORMATION POINTS	NAME	LAT	LON	NOTE
+INFOPT	Pokeno	-37.2796	175.019	North-central part of North Island; crossing of Transect 4
+HEADER-TRANSECTS	NAME	STARTLOC	ENDLOC	NOTE
+TRANSECT	1A (southern part)	Mt Roskill	Kamo
+TRANSECT	1B (northern part)	Kamo	North Cape	
+TRANSECT	2A (southwest part)	Te Ranga-1 TB_NE	East Kawhia	Continues #9
+TRANSECT	2B (central part)	East Kawhia	Te Rappa-1 on Tr2	To intersection with #4f
+TRANSECT	2C (north part)	Te Rappa-1 on Tr2	Te Hoe	
+TRANSECT	3B (NE part)	Pokeno	Maramarua	To connect 39 with transect 4
+TRANSECT	39A (NW part)	Maramarua	Katikati
+TRANSECT	39B (SE part)	Katikati	Ohiwa
+TRANSECT	4A (south part)	Ararimu-1 TB_EW	Te Rappa-1
+TRANSECT	4B (central part)	Te Rappa-1	Pokeno on Tr4
+TRANSECT	4C (north part)	Pokeno on Tr4	Mt Roskill on Tr4

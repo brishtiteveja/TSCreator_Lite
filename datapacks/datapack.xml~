@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<datapacks>
+
+	<datapack>
+		<name>Global</name>
+		<default>true</default>
+		<pack>TSC_lite_datapack_6Jan2011.txt</pack>
+		<directory>Global</directory>
+		<svg>TSC_Lite_image.svg</svg>
+		<png>TSC_Lite_image.png</png>
+		<mappack>TSC_Lite_internal_map.txt</mappack>
+	</datapack>
+
+	<datapack>
+		<name>British Isles</name>
+		<default>false</default>
+		<pack>British_datapack_Lite.txt</pack>
+		<directory>British_Isles</directory>
+		<svg>BritishSectionMap_19Nov10.svg</svg>
+		<png>BritishSectionMap_19Nov10.png</png>
+		<mappack>British_map_wChronostrat.txt</mappack>
+	</datapack>
+
+
+<datapack><name>Belgium</name><default>false</default><pack>Belgium_DataPack_ 3June2011.txt</pack><directory>Belgium</directory><svg>BelgiumGeolSites_16May11.svg</svg><png>BelgiumGeolSites_16May11.png</png><mappack>Belgium_TSCLiteOutput_3June2011.txt</mappack></datapack>
+
+<datapack><name>Belgium</name><default>false</default><pack>Belgium_DataPack_ 3June2011.txt</pack><directory>Belgium</directory><svg>BelgiumGeolSites_16May11.svg</svg><png>BelgiumGeolSites_16May11.png</png><mappack>Belgium_TSCLiteOutput_3June2011.txt</mappack></datapack><datapack><name>Belgium</name><default>false</default><pack>Belgium_DataPack_ 3June2011.txt</pack><directory>Belgium</directory><svg>BelgiumGeolSites_16May11.svg</svg><png>BelgiumGeolSites_16May11.png</png><mappack>Belgium_TSCLiteOutput_3June2011.txt</mappack></datapack><datapack><name>Belgium</name><default>false</default><pack>Belgium_DataPack_ 3June2011.txt</pack><directory>Belgium</directory><svg>BelgiumGeolSites_16May11.svg</svg><png>BelgiumGeolSites_16May11.png</png><mappack>Belgium_TSCLiteOutput_3June2011.txt</mappack></datapack></datapacks>

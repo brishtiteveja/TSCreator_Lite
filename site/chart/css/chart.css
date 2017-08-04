@@ -1,0 +1,16 @@
+object {
+	padding-top: 10px;
+	clear: both;
+}
+img.chart {
+	padding-top: 10px;
+}
+object.noshow	{
+	height: 0px;
+}
+img.noshow	{
+	visibility: hidden;
+}
+.block {
+  display: block;
+}

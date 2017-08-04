@@ -1,0 +1,55 @@
+MAP-VERSION	1
+
+HEADER-MAP	TOP AGE	BASE AGE	VERTICAL SCALE
+DEFAULT AGES	130	160	1
+
+HEADER-MAP INFO	MAP NAME	IMAGE	NOTE
+MAP INFO	British sections	British_map_NO_dots	"From ""Locations of lithostratigraphic columns"" in legend to Waters, C.N. et al (16 authors), 2007.  STRATIGRAPHICAL CHART OF THE UNITED KINGDOM: 2 sheets -- Northern Britain & Southern Britain. British Geological Survey, 2 posters."
+
+HEADER-PARENT MAP	PARENT NAME	COORDINATE TYPE	UPPER LEFT LON	UPPER LEFT LAT	LOWER RIGHT LON	LOWER RIGHT LAT
+PARENT MAP	WorldMap.jpg	RECTANGULAR	-15	63	6	48
+COMMENT	NZ on PARENT MAP	World Map	RECTANGULAR	171.5712	-37.4913	175.4356	-41.789
+
+HEADER-COORD	COORDINATE TYPE	UPPER LEFT LON	UPPER LEFT LAT	LOWER RIGHT LON	LOWER RIGHT LAT
+COORD	RECTANGULAR	0	0	4.8	7.9
+COMMENT	Long = X; Lat = Y.  Map is 7.9 inches tall (Lat) and 4.8 inches wide (Long)
+
+COMMENT	DataColumns
+HEADER-DATACOL	NAME	LON	LAT	DEFAULT ON/OFF	MIN-AGE	MAX-AGE	NOTE
+DATACOL	Eon	0.88	0.72		0	4700
+DATACOL	Era	0.88	0.97		0	4700
+DATACOL	Period	0.88	1.21		0	2800
+DATACOL	Sub-Period	1.2	1.46		298	360
+DATACOL	Epoch	1.2	1.7		0	545
+DATACOL	Age/Stage	1.2	1.94		0	545
+DATACOL	W. Europe-British Series	1.63	2.27		65	545
+DATACOL	W. Europe Stages	1.63	2.54		250	490
+DATACOL	North-west Approaches / Hebrides Shelf  (region N1)	2.58	2.25		0	400	All are arbitrary dots within designated region
+DATACOL	Northern North Sea  (region N3)	3.9	2.28		0	410	All are arbitrary dots within designated region
+DATACOL	Central North Sea  (region N8)	3.9	3.86		0	420
+DATACOL	Southern North Sea  (region S4)	4.13	5.17		0	390
+DATACOL	Isle of Man and N. Irish Sea  (region N11)	2.68	4.95		0	485
+DATACOL	Southern Irish Sea  (region S1)	2.84	5.26		0	360
+DATACOL	Celtic Sea and Bristol Channel  (region S9)	1.88	7.08		0	360
+DATACOL	English Channel  (region S16)	3.59	6.62		0	450
+DATACOL	Northern Isles  (region N2)	3.24	2.17		0	3000
+DATACOL	Northern Highlands  (region N4)	2.58	3.48		0	3000
+DATACOL	Western Isles & Inner Hebrides  (region N5)	2.13	3.46		0	3000
+DATACOL	Grampian Highlands  (region N6)	2.74	3.83		0	2100
+DATACOL	Midland Valley of Scotland  (region N7)	2.78	4.23		0	505
+DATACOL	South of Scotland  (region N9)	2.91	4.57		0	480
+DATACOL	Northern Ireland  (region N10)	2.19	4.89		0	1000
+DATACOL	Northern England  (region N12)	3.07	4.8		0	500
+DATACOL	Lancashire and Cheshire Basin  (region S2)	3.15	5.33		0	480
+DATACOL	Yorkshire  (region S3)	3.49	5.08		0	480
+DATACOL	East Midlands  (region S5)	3.53	5.52		0	620
+DATACOL	West Midlands  (region S6)	3.14	5.82		0	620
+DATACOL	North Wales  (region S7)	2.93	5.49		0	620
+DATACOL	South Wales  (region S8)	2.85	5.92		0	640
+DATACOL	South-west England  (region S10)	2.75	6.52		0	415
+DATACOL	Bristol and Gloucester  (region S11)	3.16	6.12		0	580
+DATACOL	Hampshire Basin  (region S12)	3.38	6.25		0	490
+DATACOL	London and Thames Valley  (region S13)	3.8	6.09		0	420
+DATACOL	Eastern England  (region S14)	3.69	5.78		0	365
+DATACOL	Weald Region  (region S15)	3.83	6.35		0	430
+

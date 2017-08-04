@@ -1,0 +1,177 @@
+<?php
+
+class Mappack
+{
+		public $datacols;
+		public $coordinate;
+		public $map_info;
+		public $parent_map; 
+		public $default_age;
+		
+		public function __construct( $mappack_file )
+		{
+			$this->datacols = array();
+			$this->coordinate = null;
+			$this->map_info = null;
+			$this->parent_map = null;
+			$this->default_age = null;
+
+			$this->parse_pack( $mappack_file );
+		}
+
+		// Read in file and parse given mappack
+		private function parse_pack( $file )
+		{
+			$lines = file( $file );
+
+			foreach( $lines as $line )
+			{
+				$parts = explode( "\t", $line );
+
+				// Clean up the data once now
+				foreach( $parts as &$part )
+					$part = trim( $part );
+
+				// Pull out the data
+				switch( strtolower( $parts[0] ) )
+				{
+					case "header-datacol":
+					case "header-coord":
+					case "header-parent map":
+					case "header-map":
+					case "header-map info":
+						$idx = $this->parse_header_col( $parts );
+					break;
+
+					case "datacol":
+					 /* Format:
+					 			0					1				2			 3						4							5					 6				7
+							DATACOL -- NAME -- LON -- LAT -- DEFAULT ON/OFF -- MIN-AGE -- MAX-AGE -- NOTE
+						*/
+						/*$tmp = array();
+
+						$tmp["name"]		= $parts[1];
+						$tmp["lon"] 		= $parts[2];
+						$tmp["lat"]			= $parts[3];
+						$tmp["default"]	= ( $parts[4] == "on" ? true : false );
+						$tmp["min"]			= $parts[5];
+						$tmp["max"]			= $parts[6];
+						$tmp["note"]		= $parts[7];*/
+
+						$has = array("name", "lon", "lat", "min-age", "max-age", "note");
+						$tmp = $this->get_col_vals( $has, $idx, $parts );
+						$tmp["default"] = ( $tmp["default"] == "on" ? true : false );
+
+						$this->datacols[] = $tmp;
+					break;
+
+					case "coord":
+						/* Format:
+								0							1									2									3									4										5
+							COORD -- COORDINATE TYPE -- UPPER LEFT LON -- UPPER LEFT LAT -- LOWER RIGHT LON -- LOWER RIGHT LAT	
+						*/
+						/*$tmp = array();
+
+						$tmp["type"]						= $parts[1];
+						$tmp["upper_left_lon"]	= $parts[2];
+						$tmp["upper_left_lat"]	= $parts[3];
+						$tmp["lower_right_lon"]	= $parts[4];
+						$tmp["lower_right_lat"]	= $parts[5];*/
+
+						$has = array("coordinate type", "upper left lon", "upper left lat", "lower right lon", "lower right lat");
+						$tmp = $this->get_col_vals( $has, $idx, $parts );
+
+						$this->coordinate = $tmp;
+					break;
+
+					case "parent map":
+						/* Format:
+									0								1								2										3									4									5								6
+							PARENT MAP -- PARENT NAME -- COORDINATE TYPE -- UPPER LEFT LON -- UPPER LEFT LAT -- LOWER RIGHT LON -- LOWER RIGHT LAT
+						*/
+						/*$tmp = array();
+
+						$tmp["parent_name"]			= $parts[1];
+						$tmp["coordinate_type"]	= $parts[2];
+						$tmp["upper_left_lon"]	=	$parts[3];
+						$tmp["upper_left_lat"]	= $parts[4];
+						$tmp["lower_right_lon"]	= $parts[5];
+						$tmp["lower_right_lat"] = $parts[6];*/
+
+						$has = array("parent name", "coordinate type", "upper left lon", "upper left lat", "lower right lon", "lower right lat");
+						$tmp = $this->get_col_vals( $has, $idx, $parts );
+
+						$this->parent_map = $tmp;
+					break;
+
+			 		case "map info":
+						/* Format:
+									0					1						2				3
+							MAP INFO -- MAP NAME -- IMAGE -- NOTE 
+						*/
+						/*$tmp = array();
+
+						$tmp["map_name"] 	= $parts[1];
+						$tmp["image"] 		= $parts[2];
+						$tmp["note"]			= $parts[3];*/
+
+						$has = array("map name", "image", "note");
+						$tmp = $this->get_col_vals( $has, $idx, $parts );
+
+						$this->map_info = $tmp;
+					break;
+
+					case "default ages":
+						/* Format:
+										0						1						2								3
+							DEFAULT AGES -- TOP AGE -- BASE AGE -- VERTICAL SCALE
+						*/
+						/*$tmp = array();
+
+						$tmp["top_age"] 				= $parts[1];
+						$tmp["base_age"]	 			= $parts[2];
+						$tmp["vertical_scale"]	= $parts[3];*/
+
+						$has = array("top age", "base age", "vertical scale");
+						$tmp = $this->get_col_vals( $has, $idx, $parts );
+
+						$this->default_age = $tmp;
+					break;
+
+					case "map-version":
+						/* Format:
+									0							1
+							MAP-VERSION -- VERSION
+						*/
+
+						$this->version = $parts[1];
+					break;
+
+					default:
+						// Skip the line
+					break;
+				}
+			}
+		}
+
+		private function parse_header_col( $parts )
+		{
+			$idx = array();
+			foreach ( $parts as $i => $part )
+				$idx[strtolower( $part )] = $i;
+
+			return $idx;
+		}
+
+		private function get_col_vals( $has, $idx, $parts )
+		{
+			if(sizeof(array_intersect(array_keys($idx), $has)) != sizeof($has))
+				Log::dolog("Malformed mappack or something like that", true);
+
+			$tmp = array();
+			foreach ( $has as $elm )
+				$tmp[str_replace("-age", "", str_replace(" ", "_", $elm))] = strtolower( $parts[$idx[$elm]] );
+
+			return $tmp;
+		}
+}
