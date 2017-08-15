@@ -151,18 +151,47 @@ $(document).ready(function() {
   }
 });
 
+function getMatches(string, regex, index) {
+  index || (index = 1); // default to the first capturing group
+  var matches = [];
+  var match;
+  while (match = regex.exec(string)) {
+    matches.push(match[index]);
+  }
+  return matches;
+}
+
 function showPopup( event, text ) {
 	var title = "TSCLite Popup";
 	var width, height;
 
 	// updating the location of the images on the server while looking for images
-	var re = /src="(\w*).jpg/g;
-	while (text.match(re))
-		text=text.replace(re,'src="\.\./datapack_images\/Global\/$1.jpg');
+	// Getting matches for image source tag attribute through regex match
+	var re=/<img (.*)src="(.*\s*\w*).[JPG|jpg|png|PNG]"/g;
+	m_1 = getMatches(text, re, 1);
+	m_2 = getMatches(text, re, 2);
 
-	re = /src="(\w*).png/g;
-	while (text.match(re))
-		text=text.replace(re,'src="\.\./datapack_images\/Global\/$1.jpg');
+    // Handling all such matches through while loop
+    while (m_2.length > 0 && m_2[0].indexOf("file:/") != -1) {
+		src_text = m_2[0];
+    	src_text_splits = src_text.split("/");
+    	len = src_text_splits.length;
+
+		// Creating the replacement string
+    	replacement_str = "<img align=\"middle\" src=\"../datapack_images/Global/" + src_text_splits[len-2] + "/" + src_text_splits[len-1];
+	    if (replacement_str[replacement_str.length-1] == "j")
+			replacement_str += "pg\"";
+	    else if (replacement_str[replacement_str.length-1] == "J")
+			replacement_str += "PG\"";
+	    else if (replacement_str[replacement_str.length-1] == "p")
+			replacement_str += "ng\"";	
+	    else if (replacement_str[replacement_str.length-1] == "P")
+			replacement_str += "NG\"";	
+
+		// replacing the popup text with the corrected replacement strign
+    	text = text.replace(re, replacement_str);
+		m_2 = getMatches(text, re, 2);
+	}
 
 	if(text.match(/<img/gi) != null)
 	{

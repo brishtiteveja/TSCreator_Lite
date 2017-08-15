@@ -43,13 +43,16 @@
 			  <input type="checkbox" {event_col_bg,begin}checked="checked"{event_col_bg,end} name="event_col_bg" id="event_col_bg" /> Enable Event Column Stage Background Colors 
 			</p>
 			<p>
+			</p>
+			<p>
 				<input type="submit" name="generate" value="Generate Chart" />
 			</p>
 
 			<p class="small_controls">
 					<span class="left">
 					<a href="#" class="load_defaults">Load Defaults</a> | 
-					<a href="#" class="clear_all">Clear All Selected</a>
+					<a href="#" class="clear_all">Clear All Selected</a> |
+					<a href="clearCache.php" class="clear_cache">Clear Cache (Old images, settings)</a>
 					</span>
 
 					<span class="right">
